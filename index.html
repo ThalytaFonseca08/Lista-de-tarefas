@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerador de Metas - Thalyta</title>
+    <style>
+        /* DESIGN INTERATIVO */
+        :root { --primary: #eb1cbe94; --bg: #ff00ae9e; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 40px; }
+        .card { background: rgba(255, 255, 255, 0.767); width: 100%; max-width: 450px; padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: #85719ad2; text-align: center; margin-bottom: 20px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input { flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary); }
+        button#add-btn { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        
+        ul { list-style: none; padding: 0; }
+        li { background: #fff; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .delete-btn { background: #fee2e2; color: #ef4444; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+        .delete-btn:hover { background: #ef4444; color: white; }
+        .completed { text-decoration: line-through; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🎯 LISTA DE TAREFAS</h2>
+    <div class="input-group">
+        <input type="text" id="goalInput" placeholder="Ex: Digite aqui...">
+        <button id="add-btn" onclick="addGoal()">Adicionar</button>
+    </div>
+    <ul id="goalList"></ul>
+</div>
+
+<script>
+    /* LÓGICA SEM ERROS */
+    const input = document.getElementById('goalInput');
+    const list = document.getElementById('goalList');
+
+    // Função para adicionar meta
+    function addGoal() {
+        const text = input.value.trim();
+        if (text === "") {
+            alert("Digite uma meta primeiro!");
+            return;
+        }
+
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span onclick="this.classList.toggle('completed')" style="cursor:pointer">${text}</span>
+            <button class="delete-btn" onclick="this.parentElement.remove()">Excluir</button>
+        `;
+        
+        list.appendChild(li);
+        input.value = ""; // Limpa o campo
+        input.focus();
+    }
+
+    // Atalho: apertar Enter também adiciona
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            addGoal();
+        }
+    });
+</script>
+
+</body>
+</html>
